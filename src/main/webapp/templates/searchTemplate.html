@@ -1,0 +1,33 @@
+<br><br><br>
+<div class="container">
+    <div class="panel-group">
+        <div ng-if="results.length == 0">
+            <div class="panel panel-default">
+                <div class="panel-heading">No results for {{type}}</div>
+            </div>
+        </div>
+        <div ng-if="type=='users' && results.length != 0">
+            <div class="panel panel-default">
+                <div class="panel-heading"><a href="#/users/{{results.username}}" role="button">{{results.username}}</a></div>
+                <div class="panel-body">
+                    <p><strong>Name:</strong>{{results.name}}</p>
+                    <p><strong>Role: </strong>{{results.role}}</p>
+                    <p><strong>Date: </strong>{{results.date}}</p>
+                    <p><strong>Email: </strong>{{results.email}}</p>
+                    <p><strong>Phone: </strong>{{results.phone}}</p>
+                </div>
+            </div>
+
+        </div>
+        <div ng-if="type=='subforums'">
+            <div ng-repeat="subforum in results" class="panel panel-default">
+                <div class="panel-heading"><a ng-href="#subforums/{{subforum.subForumId}}}">{{subforum.subForumId}}</a></div>
+            </div>
+        </div>
+        <div ng-if="type=='threads'">
+            <div ng-repeat="thread in results" class="panel panel-default">
+                <div class="panel-heading"><a ng-href="#subforums/{{thread.subforumId}}/threads/{{thread.nameId}}">{{thread.nameId}}</a></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,98 @@
+<div ng-init="getResourceInit()">
+    <br><br><br>
+
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-1">
+                <img class="img-responsive img-thumbnail" ng-src="{{subforum.iconPath}}">
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div>
+                    <h1>{{subforum.subForumId}}</h1>
+                    <p>{{subforum.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="width: 75%">
+        <div ng-if="loggedUser" class="panel panel-primary">
+            <div class="panel-heading">
+                <button type="button" ng-click="createThread()" class="btn btn-success">New Thread</button>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-9 col-sm-9">
+
+                <div ng-repeat="thread in threads" class="row">
+                    <div class="media">
+                        <div class="col-md-1 col-sm-1">
+                            <div class="media-left">
+                                <div ng-disabled="!loggedUser" style="float: right !important;">
+                                    <img ng-click="likeIt(thread)" ng-if="!isVoted(thread.userLikeIds)" role="button" style="max-width:73%; max-height:73%;" src="icons/upvote.png">
+                                    <img ng-click="likeIt(thread)" ng-if="isVoted(thread.userLikeIds)" role="button" style="max-width:73%; max-height:73%;" src="icons/upvoted.png">
+                                    <div><strong style="margin-left: 15px">{{thread.userLikeIds.length - thread.userDislikeIds.length}}</strong></div>
+                                    <img ng-click="dislikeIt(thread)" ng-if="!isVoted(thread.userDislikeIds)" role="button" style="max-width:73%; max-height:73%;" src="icons/downvote.png">
+                                    <img ng-click="dislikeIt(thread)" ng-if="isVoted(thread.userDislikeIds)" role="button" style="max-width:73%; max-height:73%;" src="icons/downvoted.png">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-11 col-sm-11">
+                            <div class="media-body">
+                                <div class="panel panel-primary ">
+                                    <div class="panel-heading">
+                                        <p style="float: left"><a style="color:white;" ng-href="#/subforums/{{subforum.subForumId}}/threads/{{thread.nameId}}"><b>{{thread.nameId}}</b></a></p>
+                                        <p style="text-align: right"><strong>DATE:</strong>{{thread.creationDate}}</p>
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <p style="float: left "><strong>AUTHOR: </strong>{{thread.authorId}}</p>
+                                        <div style="text-align: right">
+                                            <a ng-if="loggedUser" class="btn btn-warning" ng-disabled="isSavedThread(thread)" ng-click="saveThread(thread)"><em class="glyphicon glyphicon-star"></em></a>
+                                            <a ng-if="editDeletePermission" class="btn btn-default" ng-click="editThread(thread)" data-toggle="modal"><em class="glyphicon glyphicon-pencil"></em></a>
+                                            <a ng-if="editDeletePermission" class="btn btn-danger" ng-click="deleteThread(thread)"><em class="glyphicon glyphicon-trash"></em></a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+            <div class="col-md-3 col-sm-3">
+
+                <div ng-if="subforum.listOfRules.length != 0">
+                    <ul class="list-group">
+                        <li class="list-group-item active"><strong>Rules</strong></li>
+                        <li class="list-group-item" ng-repeat="rule in subforum.listOfRules track by $index">{{rule}}</li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="panel panel-primary ">
+            <div class="panel-heading">
+                <p><strong>Main moderator: </strong>{{subforum.mainModId}}</p>
+                <p><strong>Other moderators: </strong>
+                    <span ng-repeat="moderator in subforum.moderatorsIds track by $index">{{moderator}}<span ng-if="!$last">, </span></span>
+                </p>
+            </div>
+        </div>
+
+
+        <div ng-include="'forms/newThread.html'"></div>
+
+
+    </div>
+</div>

@@ -1,0 +1,57 @@
+<br><br><br>
+<div class="container-fluid" ng-init="getResource('subforums')">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+
+            <div class="panel panel-default panel-table">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col col-xs-6">
+                            <h3 class="panel-title text-info">Subforums</h3>
+                        </div>
+                        <div ng-if="checkSubforumAddPermission()" class="col col-xs-6 text-right">
+                            <button type="button" data-toggle="modal" data-target="#newSubforumModal" class="btn btn-sm btn-success">Create Subforum</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered table-list">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Moderator</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in results track by $index">
+
+                                <td><a href="#/subforums/{{item.subForumId}}">{{item.subForumId}}</a></td>
+                                <td class="row row-list">
+                                    <div class="col-xs-10">{{item.description}}</div>
+                                    <div ng-if="checkSubforumEditDeletePermission(item)" class="col-xs-1">
+                                        <a class="btn btn-danger" ng-click="deleteSubforum(item)"><em class="glyphicon glyphicon-trash"></em></a>
+                                    </div>
+                                    <div ng-if="loggedUser">
+                                        <div ng-if="checkIfSaved(item)">
+                                            <a class="btn btn-warning" ng-click="unsaveSubforum(item)"><em class="glyphicon glyphicon-bookmark"></em></a>
+                                        </div>
+                                        <div ng-if="!checkIfSaved(item)">
+                                            <a class="btn btn-info" ng-click="saveSubforum(item)"><em class="glyphicon glyphicon-bookmark"></em></a>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><a href="#users/{{item.mainModId}}">{{item.mainModId}}</a></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div ng-include="'forms/newSubforum.html'"></div>
+</div>

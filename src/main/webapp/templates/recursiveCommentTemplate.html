@@ -1,0 +1,73 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <strong style="float: left">{{comment.authorId}} &nbsp;<span ng-show="{{comment.edited}}" class="label label-default">Edited</span></strong>
+        <p class="text-info" style="text-align: right">{{comment.creationDate}}</p>
+        <div class="row">
+            <div class="col-md-2">
+                <button class="btn btn-success" ng-if="checkPermission(comment)" data-toggle="modal" data-target="#commentModal{{comment.commentId}}" ng-disabled="comment.deleted"><span class="glyphicon glyphicon-pencil"></span></button> &nbsp;
+                <button class="btn btn-danger" ng-if="checkPermission(comment)" ng-disabled="comment.deleted" ng-click="deleteComment(comment)"><span class="glyphicon glyphicon-trash"></span></button>
+                <button class="btn btn-warning" ng-if="loggedUser" ng-disabled="comment.deleted || checkIfSaved(comment)" ng-click="saveComment(comment)"><span class="glyphicon glyphicon-star"></span></button>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-10">
+                <p ng-if="!comment.deleted" style="margin-left:2em;">{{comment.content}}</p>
+                <p ng-if="comment.deleted" class="text text-danger" style="margin-left:2em;">[deleted content]</p>
+            </div>
+            <div class="col-md-2">
+                <fieldset ng-disabled="comment.deleted">
+                    <a role="button" ng-if="!isVoted(comment.userLikesIds)" ng-click="likeIt(comment)"><img src="icons/like.png"> Like ({{comment.userLikesIds.length}})</a>
+                    <a role="button" ng-if="isVoted(comment.userLikesIds)" ng-click="likeIt(comment)"><img src="icons/liked.png"> Like ({{comment.userLikesIds.length}})</a>
+                    <a role="button" ng-if="!isVoted(comment.userDislikeIds)" ng-click="dislikeIt(comment)"><img src="icons/dislike.png"> Dislike ({{comment.userDislikeIds.length}})</a>
+                    <a role="button" ng-if="isVoted(comment.userDislikeIds)" ng-click="dislikeIt(comment)"><img src="icons/disliked.png"> Dislike ({{comment.userDislikeIds.length}})</a>
+                </fieldset>
+            </div>
+        </div>
+
+        <div ng-repeat="comment in getCommentsWithParent(comment.commentId)" ng-include="'templates/recursiveCommentTemplate.html'"></div>
+
+        <div class="row">
+            <form ng-if="loggedUser" name="formComment">
+                <div class="col-md-11">
+                    <input type="text" ng-model="comment.tempText" class="form-control" ng-required="true" placeholder="Reply to {{comment.authorId}}...">
+                </div>
+                <div class="col-md-1">
+                    <button type="button" form="formComment" ng-disabled="formComment.$invalid" ng-click="createComment(comment.tempText, comment.commentId)" class="btn btn-success"><span class="glyphicon glyphicon-comment"></span></button>
+                </div>
+            </form>
+            <div ng-if="!loggedUser">
+                <p class="text-danger"><strong>&nbsp;Please login in order to comment!</strong></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="commentModal{{comment.commentId}}" class="modal fade col-md-4 col-md-offset-4" role="dialog">
+    <br><br><br>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3 class="modal-title">Edit comment</h3>
+        </div>
+        <form id="commentForm{{comment.commentId}}">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="commentField{{comment.commentId}}">Edit:</label>
+                    <div ng-init="comment.textEditComment = comment.content"></div>
+                    <input type="text" class="form-control" ng-model="comment.textEditComment" ng-required="true">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="editComment(comment)" type="submit" data-dismiss="modal" class="btn btn-default" form="commentModal{{comment.commentId}}" ng-disabled="commentModal{{comment.commentId}}.$invalid">Submit</button>
+            </div>
+
+
+        </form>
+
+
+
+    </div>
+
+
+</div>

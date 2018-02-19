@@ -1,0 +1,41 @@
+<div class="container">
+    <br><br><br>
+    <div class="panel panel-default">
+        <div class="panel-heading">{{thread.nameId}}</div>
+        <div class="panel-body">
+            <div ng-if="thread.type == 'TEXT'">
+                <p>{{thread.content}}</p>
+            </div>
+            <div ng-if="thread.type == 'LINK'">
+                <a ng-href="{{thread.content}}">LINK</a>
+            </div>
+            <div ng-if="thread.type == 'IMAGE'">
+                <img class="img-responsive img-thumbnail" ng-src="{{thread.content}}" />
+            </div>
+        </div>
+    </div>
+
+    <div ng-repeat="comment in getCommentsWithParent(-1)">
+        <div ng-include="'templates/recursiveCommentTemplate.html'"></div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row" ng-init="commentContent=''">
+                <form ng-if="loggedUser" name="formComment">
+                    <div class="col-md-11">
+                        <input type="text" ng-model="commentContent" ng-required="true" class="form-control" placeholder="Write comment...">
+                    </div>
+                    <div class="col-md-1">
+                        <button type="button" form="formComment" ng-disabled="formComment.$invalid" ng-click="createComment(commentContent, -1)" class="btn btn-success"><span class="glyphicon glyphicon-comment"></span></button>
+                    </div>
+                </form>
+                <div ng-if="!loggedUser">
+                    <p class="text-danger"><strong>&nbsp;Please login in order to comment!</strong></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

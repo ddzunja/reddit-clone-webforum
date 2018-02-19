@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+    <title>WebForum</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="icons/icon.png">
+    <script src="libraries/angular.js"></script>
+    <script src="libraries/angular-route.js"></script>
+    <script src="libraries/jquery-3.2.1.min.js"></script>
+    <script src="libraries/checklist-model.js"></script>
+    <script src="libraries/jquerystuff.js"></script>
+
+
+    <script src="angularjs/ngStuff.js"></script>
+    <script src="angularjs/services.js"></script>
+    <script src="angularjs/rootController.js"></script>
+    <script src="angularjs/subforumsListController.js"></script>
+    <script src="angularjs/homePageController.js"></script>
+    <script src="angularjs/subforumController.js"></script>
+    <script src="angularjs/threadController.js"></script>
+    <script src="angularjs/editSubforumController.js"></script>
+    <script src="angularjs/editThreadController.js"></script>
+    <script src="angularjs/registrationController.js"></script>
+    <script src="angularjs/searchController.js"></script>
+    <script src="angularjs/messagesController.js"></script>
+    <script src="angularjs/userPageController.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="libraries/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="libraries/bootstrap/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/navigation-bar.css">
+    <link rel="stylesheet" type="text/css" href="css/content-table.css">
+    <script src="libraries/bootstrap/js/bootstrap.min.js"></script>
+</head>
+
+<body ng-controller="RootController">
+    <nav class="navbar navbar-findcond navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                </button>
+
+                <a class="navbar-brand" href="#/">WebForum</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li><a role="button" class="active" data-toggle="modal" data-target="#searchModal"><span class="glyphicon glyphicon-search"></span><span class="sr-only">(Search)</span></a></li>
+
+                    <li ng-if="!loggedIn" role="button" class="active"><a data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in">&nbsp;</span>Login</a></li>
+                    <li ng-if="!loggedIn" role="button" class="active">
+                        <a href="#/signup">Sign up</a>
+                    </li>
+
+                    <li ng-if="loggedIn" class="dropdown">
+                        <a class="dropdown-toggle" role="button" data-toggle="dropdown">Welcome, {{name}}!<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li role="button"><a ng-href="#/messages">Messages</a></li>
+                            <li role="button"><a ng-href="#/users/{{loggedUser.username}}">My Profile</a></li>
+                        </ul>
+                    </li>
+                    <li ng-if="loggedIn" class="dropdown">
+                        <a class="dropdown-toggle" role="button" data-toggle="dropdown"><span class="glyphicon glyphicon-cog">&nbsp;</span><span class="sr-only">(Search)</span></a>
+                        <ul class="dropdown-menu">
+                            <li ng-click="logoutUser()" role="button"><a>Log out</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div ng-view></div>
+    <div ng-include="'forms/searchForm.html'"></div>
+    <div ng-include="'forms/loginForm.html'"></div>
+</body>
+
+
+
+</html>

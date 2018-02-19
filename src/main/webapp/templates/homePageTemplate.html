@@ -1,0 +1,67 @@
+<br><br><br>
+<div ng-init="init()" class="container">
+
+    <div ng-if="!loggedUser">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Please Log in to see your favourite content</strong>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="loggedUser">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="panel-group">
+                    <div ng-repeat="threadListInSubforum in subforumThreads track by $index">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <span class="glyphicon glyphicon-pushpin"></span> <strong><a role="button" ng-href="#/subforums/{{loggedUser.subscribedSubForumsIds[$index]}}">{{loggedUser.subscribedSubForumsIds[$index]}}</a></strong>
+                            </div>
+                            <div ng-if="threadListInSubforum != 0">
+                                <div class="panel-body" ng-repeat="thread in threadListInSubforum">
+                                    <a style="float: left" role="button" ng-href="#/subforums/{{thread.subforumId}}/threads/{{thread.nameId}}"><strong>{{thread.nameId}}</strong></a>
+                                </div>
+                            </div>
+                            <div ng-if="threadListInSubforum == 0">
+                                <br> &nbsp;
+                                <span class="glyphicon glyphicon-minus-sign">&nbsp;</span> <strong>No threads in this subforum</strong>
+                                <br><br>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong><span class="glyphicon glyphicon-star"></span>  (TOP 5) Check out these first!</strong>
+                    </div>
+                    <div ng-if="allThreads.length == 0">
+                        Please follow some subforums, so we can recommend you threads to visit!
+                    </div>
+
+                    <div class="panel-body" ng-repeat="thread in allThreads">
+                        <a style="float: left" role="button" ng-href="#/subforums/{{thread.subforumId}}/threads/{{thread.nameId}}"><strong>{{thread.nameId}}</strong></a>
+                        <fieldset style="text-align: right" ng-disabled="true">
+                            <button role="button" class="btn btn-success"><span class="glyphicon glyphicon-triangle-top"></span> {{thread.userLikeIds.length}}</button>
+                            <button role="button" class="btn btn-danger"><span class="glyphicon glyphicon-triangle-bottom"></span> {{thread.userDislikeIds.length}}</button>
+                        </fieldset>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+</div>

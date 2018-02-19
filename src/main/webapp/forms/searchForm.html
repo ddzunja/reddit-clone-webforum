@@ -1,0 +1,78 @@
+<div id="searchModal" class="modal fade col-md-4 col-md-offset-4" role="dialog">
+    <br><br><br>
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h3 class="modal-title">Search</h3>
+        </div>
+
+
+        <form name="searchForm">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label ng-model="searchFormType" for="typeOfSearchID">Search for</label>
+                    <select id="typeOfSearchID" ng-required="true" ng-model="$parent.typeOfSearch" class="form-control">
+                        <option value="users">Users</option>
+                        <option value="subforums">Subforums</option>
+                        <option value="threads">Threads</option>
+                    </select>
+                    <hr>
+
+                    <div ng-if="typeOfSearch=='users'">
+                        <div class="form-group">
+                            <label for="userId-search">Username: </label>
+                            <input type="text" ng-model="userSearch.username" id="userId-search" class="form-control" placeholder="Enter username...">
+                        </div>
+                    </div>
+
+                    <div ng-if="typeOfSearch=='subforums'">
+                        <div class="form-group">
+                            <label for="subforumId-search">Username: </label>
+                            <input type="text" ng-model="subforumSearch.subforumId" id="subforumId-search" class="form-control" placeholder="Enter subforum name...">
+                        </div>
+                        <div class="form-group">
+                            <label for="description-search">Description: </label>
+                            <input type="text" ng-model="subforumSearch.description" id="description-search" class="form-control" placeholder="Enter subforum description...">
+                        </div>
+                        <div class="form-group">
+                            <label for="mainMod-search">Moderator: </label>
+                            <input type="text" ng-model="subforumSearch.mainModId" id="mainMod-search" class="form-control" placeholder="Enter main moderator username...">
+                        </div>
+                    </div>
+                    <div ng-if="typeOfSearch=='threads'">
+                        <div class="form-group">
+                            <label for="nameId-search">Name: </label>
+                            <input type="text" ng-model="threadSearch.nameId" id="nameId-search" class="form-control" placeholder="Enter thread name...">
+                        </div>
+                        <div class="form-group">
+                            <label for="threadType">Type: </label>
+                            <select ng-model="threadSearch.type" class="form-control">
+                            <option value="TEXT">Text</option>
+                            <option value="LINK">Link</option>
+                            <option value="IMAGE">Image</option>
+                        </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="authorT-search">Author: </label>
+                            <input type="text" ng-model="threadSearch.authorId" id="authorT-search" class="form-control" placeholder="Enter author username...">
+                        </div>
+                        <div class="form-group">
+                            <label for="subforumIdThread-search">Subforum: </label>
+                            <input type="text" ng-model="threadSearch.subforumId" id="subforumIdThread-search" class="form-control" placeholder="Enter subforum name...">
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" ng-disabled="searchForm.$invalid" data-dismiss="modal" ng-click="searchObject()" class="btn btn-default">Search <span class="glyphicon glyphicon-search"></span></button>
+            </div>
+
+        </form>
+
+
+
+    </div>
+
+</div>
